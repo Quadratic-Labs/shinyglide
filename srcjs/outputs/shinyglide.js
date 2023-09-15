@@ -174,23 +174,28 @@ class ShinyGlide {
   // Update controls enabling conditions
   update_conditions(slide) {
 
-    const next_condition = slide.getAttribute('data-next-condition');
-    const prev_condition = slide.getAttribute('data-prev-condition');
+    if(slide !== undefined && slide !== null){
+      const next_condition = slide.getAttribute('data-next-condition');
+      const prev_condition = slide.getAttribute('data-prev-condition');
 
-    $(this.prev_detector).data("data-display-if-func", null);
-    $(this.next_detector).data("data-display-if-func", null);
-    if (prev_condition === null) {
-      this.prev_detector.setAttribute("data-display-if", "true");
-    } else {
-      this.prev_detector.setAttribute("data-display-if", prev_condition);
-    }
-    if (next_condition === null) {
-      this.next_detector.setAttribute("data-display-if", "true");
-    } else {
-      this.next_detector.setAttribute("data-display-if", next_condition);
+      $(this.prev_detector).data("data-display-if-func", null);
+      $(this.next_detector).data("data-display-if-func", null);
+      if (prev_condition === null) {
+        this.prev_detector.setAttribute("data-display-if", "true");
+      } else {
+        this.prev_detector.setAttribute("data-display-if", prev_condition);
+      }
+      if (next_condition === null) {
+        this.next_detector.setAttribute("data-display-if", "true");
+      } else {
+        this.next_detector.setAttribute("data-display-if", next_condition);
+      }
+
+      if(window.Shiny.shinyapp !== undefined && window.Shiny.shinyapp !== null){
+        window.Shiny.shinyapp.$updateConditionals();
+      }
     }
 
-    window.Shiny.shinyapp.$updateConditionals();
   }
 
   // Get current slide next label
@@ -343,10 +348,10 @@ $(function () {
   setup();
 });
 
-// Add MutationObserver to to rerun setup if a new shinyglide 
+// Add MutationObserver to to rerun setup if a new shinyglide
 // is dynamically inserted with renderUI() or with a modal
 
-const config = { childList: true, subtree: true };
+/*const config = { childList: true, subtree: true };
 const observer = new MutationObserver((mutationsList, observer) => {
   mutationsList.forEach(mutation => {
     if (mutation.addedNodes === undefined) return;
@@ -361,4 +366,4 @@ const observer = new MutationObserver((mutationsList, observer) => {
     })
   })
 });
-observer.observe(document.querySelector("body"), config);
+observer.observe(document.querySelector("body"), config);*/
